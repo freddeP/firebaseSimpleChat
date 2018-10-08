@@ -1,33 +1,41 @@
 window.addEventListener("DOMContentLoaded",initChatApp);
-var database = "";
+ // initiera en referens till databasen
+const database = firebase.database();
 function initChatApp()
 {
-    // initiera en referens till databasen
-    database = firebase.database();
+    
     // Click på formuläret
     document.getElementById("chatForm").addEventListener("submit", sendChat);
 }
 
 // skapa referens till vår chat
-var messages = database.ref('chat');
-// funktion som körs om värden i chat ändras
-messages.on('value', function(snapshot) {
+var messages = database.ref('chat').orderByChild('timestamp');;
 
-    let data = snapshot.val();
-    let htmlTarget = document.getElementsByClassName("messages")[0];
-    htmlTarget.innerHTML= "";
-    for(let mes in data )
-    {
+firebase.auth().onAuthStateChanged(function(user){if(user) {
+      
+    // funktion som körs om värden i chat ändras
+    messages.on('value', function(snapshot) {
 
-        let tempTemplate = `
-            <h3>Author: ${data[mes].author}</h3>
-            <p>Message: ${data[mes].message}</p>
-            <hr>
-            `;
-        
-            htmlTarget.innerHTML += tempTemplate; 
-    }
-});
+        let data = snapshot.val();
+        let dataKeys = Object.keys(data).reverse();
+        let htmlTarget = document.getElementsByClassName("messages")[0];
+        htmlTarget.innerHTML= "";
+        for(let key in dataKeys )
+        {
+            key = dataKeys[key];
+            let tempTemplate = `<div>
+                <h3>${data[key].author}</h3>
+                <p><pre>${data[key].message}</pre></p>
+                <hr></div>
+                `;
+            
+                htmlTarget.innerHTML += tempTemplate; 
+        }
+    });
+
+
+}});  // end if user
+
 
 
 
@@ -36,13 +44,23 @@ messages.on('value', function(snapshot) {
 function sendChat(e)
 {
     e.preventDefault();
-    console.log("form submitted");
+    firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+          console.log("user:", user);
+      
+              database.ref('chat').push({
+                  timestamp: Date.now(),
+                  userid: _id("uid").value,
+                  author: _id("author").value,
+                  message: _id("message").value
+              });  
+        } else {
+          // No user is signed in.
+        }
+      });
 
-        database.ref('chat').push({
-            id: Date.now(),
-            author: document.getElementById("author").value,
-            message: document.getElementById("message").value
-        });
+
+
 
 }
 

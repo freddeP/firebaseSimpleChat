@@ -4,23 +4,29 @@
     margin:0;
 }
 
-.chatForm input, .chatForm textarea{
+main input, main textarea{
     width:100%;
     padding:1%;
     font-size:20px;
     color:#505050;
 }
 
-.chatForm{
+.chatForm, .loginForm{
     width:60%;
     margin: auto;
     min-height: 20vh;
 }
-
+.chatForm, .messages{
+    display:none;
+}
 .messages{
     width:60%;
     margin: auto;
     border:1px solid #ddd;
     min-height: 50vh;
+}
+.messages div{
+    padding:2%;
+
 }
 header{text-align: center; min-height: 10vh;}

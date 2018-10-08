@@ -8,17 +8,32 @@
     <title>firebase chat</title>
     <script src="https://www.gstatic.com/firebasejs/5.5.3/firebase.js"></script>
     <script src="firebase.js"></script>
-
-   
+    <script src="helpers.js"></script>
     <script src="main.js"></script>
+    <script src="login.js"></script>
 </head>
 <body>
     
     <header><h1>t4 firebase chat app</h1></header>
     <main>
+
+        <div class="loginForm">'
+            <form action="" method="post" id = "loginForm">
+                <input type="email"  id="email" placeholder="email">
+                <input type="password"  id="password" placeholder="password">
+                <input type="submit" value="Log in">
+            </form>
+        </div>
+        <div class="loginForm logout">'
+                <form action="" method="post" id = "logoutForm">
+                    <input type="submit" value="Log out">
+                </form>
+        </div>
+
         <div class="chatForm">
             <form action="" method = "post" id = "chatForm" >
                 <input type="text"  id="author" placeholder="author">
+                <input type="hidden"  id="uid">
                 <textarea  id="message" placeholder="chat message"></textarea>
                 <input type="submit" value="send message">
             </form>
